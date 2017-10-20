@@ -47,26 +47,14 @@ class EnvioRPS extends Factory
         $data = null
     ) {
         $xmlRPS = '';
-        $method = "PedidoEnvioRPS";
+        $method = "PedidoEnvioLoteRPS";
         $content = $this->requestFirstPart($method);
-        if (is_object($data)) {
-            $xmlRPS .= $this->individual($data);
-        } elseif (is_array($data)) {
-            if (count($data) == 1) {
-                $xmlRPS .= $this->individual($data[0]);
-            } else {
-                $method = "PedidoEnvioLoteRPS";
-                $content = $this->requestFirstPart($method);
-                $xmlRPS .= $this->lote($data);
-            }
-        } else {
-            return '';
-        }
+        $xmlRPS .= $this->lote($data);
         $content .= Header::render(
             $versao,
             $remetenteTipoDoc,
             $remetenteCNPJCPF,
-            null,
+            $transacao,
             null,
             null,
             null,
